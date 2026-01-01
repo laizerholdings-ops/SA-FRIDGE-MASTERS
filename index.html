@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SA Fridge Masters | Engineering Thermal Excellence</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #020617;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* --- Custom Animations --- */
+        @keyframes ken-burns {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+        .animate-ken-burns { animation: ken-burns 30s ease-in-out infinite; }
+
+        @keyframes text-glow {
+            0%, 100% { filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.3)); }
+            50% { filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6)); }
+        }
+        .animate-text-glow { animation: text-glow 4s ease-in-out infinite; }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee { animation: marquee 40s linear infinite; }
+
+        @keyframes pulse-green {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        .whatsapp-pulse { animation: pulse-green 2s infinite; }
+
+        .text-shimmer {
+            background: linear-gradient(to right, #D4AF37 20%, #ffffff 40%, #ffffff 60%, #D4AF37 80%);
+            background-size: 200% auto;
+            color: #D4AF37;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 4s linear infinite;
+        }
+        @keyframes textShimmer { to { background-position: 200% center; } }
+
+        /* --- UI Components --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.17, 0.55, 0.55, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #020617; z-index: 9999; display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="relative w-24 h-24">
+            <div class="absolute inset-0 border-4 border-white/5 rounded-full"></div>
+            <div class="absolute inset-0 border-4 border-t-[#D4AF37] rounded-full animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center font-black text-[10px] tracking-widest text-white">MASTERS</div>
+        </div>
+    </div>
+
+    <!-- Video Background Layer -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden">
+        <video autoPlay muted loop playsInline class="w-full h-full object-cover animate-ken-burns opacity-30 sm:opacity-40">
+            <source src="background.mp4" type="video/mp4" />
+            <img src="https://images.unsplash.com/photo-1571175432230-01c28858c03b?auto=format&fit=crop&q=80" alt="Backdrop Fallback" />
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#020617]/90 to-[#020617] z-10"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 py-4 transition-all duration-700 top-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between items-center px-6 py-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-xl bg-[#0f172a]/95">
+                <div class="flex items-center space-x-3 group cursor-pointer">
+                    <div class="w-10 h-10 bg-[#D4AF37] rounded-lg flex items-center justify-center text-[#020617] font-black shadow-lg">FR</div>
+                    <div class="flex flex-col">
+                        <span class="font-black text-lg tracking-tighter uppercase leading-none">SA FRIDGE <span class="text-[#D4AF37]">MASTERS</span></span>
+                        <span class="text-[8px] font-bold tracking-[0.4em] uppercase opacity-70">Infrastructure Integrity</span>
+                    </div>
+                </div>
+
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="#about" class="text-[10px] font-black uppercase tracking-widest hover:text-[#D4AF37] transition-colors">Our Story</a>
+                    <a href="#services" class="text-[10px] font-black uppercase tracking-widest hover:text-[#D4AF37] transition-colors">Technical Services</a>
+                    <a href="#process" class="text-[10px] font-black uppercase tracking-widest hover:text-[#D4AF37] transition-colors">The Process</a>
+                    <a href="tel:0718415957" class="px-6 py-3 bg-[#D4AF37] text-[#020617] rounded-xl font-bold hover:brightness-110 transition-all shadow-lg uppercase text-[10px] tracking-widest active:scale-95">Dispatch: 071 841 5957</a>
+                </div>
+                
+                <button id="menu-toggle" class="lg:hidden text-white">
+                    <i data-lucide="menu" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden absolute top-24 left-4 right-4 bg-[#0f172a] border border-white/10 rounded-2xl p-6 shadow-2xl lg:hidden">
+            <div class="flex flex-col space-y-6">
+                <a href="#about" class="mobile-link text-xs font-black uppercase tracking-widest">About Us</a>
+                <a href="#services" class="mobile-link text-xs font-black uppercase tracking-widest">Services</a>
+                <a href="#process" class="mobile-link text-xs font-black uppercase tracking-widest">The Process</a>
+                <a href="tel:0718415957" class="bg-[#D4AF37] text-[#020617] py-4 rounded-xl font-black text-center uppercase text-xs tracking-widest">Call Emergency Unit</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center pt-24 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8 text-center lg:text-left reveal">
+                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-full">
+                    <span class="w-2 h-2 bg-[#D4AF37] rounded-full animate-pulse"></span>
+                    <span class="text-[#D4AF37] text-[10px] font-black uppercase tracking-[0.3em]">South Africa's Premier Access Control</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-black leading-[0.9] tracking-tighter uppercase">
+                    Engineering <br />
+                    <span class="text-shimmer animate-text-glow">Thermal</span> <br />
+                    Excellence.
+                </h1>
+                
+                <p class="text-lg md:text-xl max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed text-slate-400">
+                    SA Fridge Masters specializes in turnkey refrigeration restoration—from industrial cold chain logistics to domestic artisan repairs. We manage the structural integrity your lifestyle deserves.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-6">
+                    <a href="tel:0718415957" class="px-10 py-5 bg-[#D4AF37] text-[#020617] font-black rounded-2xl shadow-2xl hover:scale-105 transition-all flex items-center justify-center uppercase tracking-widest text-xs">
+                        Call Now <i data-lucide="phone" class="ml-3 w-4 h-4"></i>
+                    </a>
+                    <a href="https://wa.me/27718415957" class="px-10 py-5 glass-card font-black rounded-2xl border border-white/10 transition-all uppercase tracking-widest text-xs flex items-center justify-center hover:bg-white/5 active:scale-95">
+                        WhatsApp Us
+                    </a>
+                </div>
+            </div>
+
+            <div class="hidden lg:block relative reveal" style="transition-delay: 200ms;">
+                <div class="relative z-10 rounded-[3.5rem] overflow-hidden shadow-2xl border border-white/10 transform rotate-3 hover:rotate-0 transition-all duration-1000 aspect-square group">
+                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80" alt="Artisan at work" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[4000ms]" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute bottom-8 left-8 right-8">
+                         <p class="text-2xl font-black uppercase tracking-tighter">Artisan Standards</p>
+                         <p class="text-xs text-[#D4AF37] font-bold uppercase tracking-widest">Since 2020</p>
+                    </div>
+                </div>
+                <div class="absolute -top-10 -right-10 w-64 h-64 bg-[#D4AF37]/10 blur-[100px] rounded-full"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Corporate Profile Section -->
+    <section id="about" class="py-32 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="max-w-5xl mx-auto text-center lg:text-left">
+                <div class="space-y-12 reveal">
+                    <div class="space-y-6">
+                        <h2 class="text-[#D4AF37] font-black uppercase tracking-[0.4em] text-[11px]">The Professional Standard</h2>
+                        <h3 class="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[1.1]">Integrity In Every Structural Build.</h3>
+                        <div class="w-24 h-2 bg-[#D4AF37] rounded-full opacity-50 mx-auto lg:mx-0"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-slate-400 text-lg leading-relaxed font-medium">
+                        <div class="space-y-6">
+                            <p>SA Fridge Masters has established itself as a premier multidisciplinary infrastructure partner in South Africa. We operate on a core philosophy: that every entrance and cooling project deserves uncompromising artisan quality. Our technicians are not just repairmen; they are specialists trained in the structural mechanics of advanced refrigeration.</p>
+                            <p>Our company specializes in bridging the gap between high-end architectural aesthetics and rugged mechanical reliability. We manage the entire structural integrity of the installation, ensuring that every panel and compressor meets the highest national standards.</p>
+                        </div>
+                        <div class="space-y-6">
+                            <p>By leveraging state-of-the-art diagnostic equipment and adhering strictly to SANS 10147 environmental and safety protocols, we have built a reputation for solving mechanical failures that other providers simply cannot diagnose.</p>
+                            <p>Since our founding in 2020, we have successfully restored over 12,000 units across Gauteng, the Western Cape, and KwaZulu-Natal. This legacy of excellence is built on a foundation of transparent pricing and an unshakeable promise to every client.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8">
+                        <div class="p-8 glass-card rounded-[2.5rem] border-l-4 border-[#D4AF37]">
+                           <i data-lucide="target" class="text-[#D4AF37] mb-4 w-6 h-6"></i>
+                           <h4 class="font-black uppercase text-[10px] tracking-widest mb-2">Our Mission</h4>
+                           <p class="text-xs leading-relaxed opacity-70">To empower South African homeowners and businesses with durable, secure, and technologically advanced thermal solutions.</p>
+                        </div>
+                        <div class="p-8 glass-card rounded-[2.5rem] border-l-4 border-blue-600">
+                           <i data-lucide="shield" class="text-blue-500 mb-4 w-6 h-6"></i>
+                           <h4 class="font-black uppercase text-[10px] tracking-widest mb-2">Our Promise</h4>
+                           <p class="text-xs leading-relaxed opacity-70">To maintain transparent artisan pricing, rapid response times, and an absolute commitment to structural quality.</p>
+                        </div>
+                        <div class="p-8 glass-card rounded-[2.5rem] border-l-4 border-green-500">
+                           <i data-lucide="users" class="text-green-500 mb-4 w-6 h-6"></i>
+                           <h4 class="font-black uppercase text-[10px] tracking-widest mb-2">Our Community</h4>
+                           <p class="text-xs leading-relaxed opacity-70">Supporting the local economy by providing expert engineering training to young South African artisans.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Marquee -->
+    <section class="py-12 border-y border-white/10 bg-black/20 overflow-hidden">
+        <div class="flex whitespace-nowrap animate-marquee">
+            <div class="flex">
+                <div class="flex items-center gap-8 px-16">
+                    <i data-lucide="zap" class="text-[#D4AF37] w-6 h-6"></i>
+                    <span class="font-black uppercase text-sm tracking-widest">Inverter-Tech Certified</span>
+                </div>
+                <div class="flex items-center gap-8 px-16">
+                    <i data-lucide="shield-check" class="text-[#D4AF37] w-6 h-6"></i>
+                    <span class="font-black uppercase text-sm tracking-widest">SANS 10147 Compliance</span>
+                </div>
+                <div class="flex items-center gap-8 px-16">
+                    <i data-lucide="history" class="text-[#D4AF37] w-6 h-6"></i>
+                    <span class="font-black uppercase text-sm tracking-widest">Rapid Response Logistics</span>
+                </div>
+                <div class="flex items-center gap-8 px-16">
+                    <i data-lucide="clock" class="text-[#D4AF37] w-6 h-6"></i>
+                    <span class="font-black uppercase text-sm tracking-widest">24/7 Strategic Support</span>
+                </div>
+            </div>
+            <!-- Duplicate for infinite loop -->
+            <div class="flex">
+                <div class="flex items-center gap-8 px-16">
+                    <i data-lucide="zap" class="text-[#D4AF37] w-6 h-6"></i>
+                    <span class="font-black uppercase text-sm tracking-widest">Inverter-Tech Certified</span>
+                </div>
+                <div class="flex items-center gap-8 px-16">
+                    <i data-lucide="shield-check" class="text-[#D4AF37] w-6 h-6"></i>
+                    <span class="font-black uppercase text-sm tracking-widest">SANS 10147 Compliance</span>
+                </div>
+                <div class="flex items-center gap-8 px-16">
+                    <i data-lucide="history" class="text-[#D4AF37] w-6 h-6"></i>
+                    <span class="font-black uppercase text-sm tracking-widest">Rapid Response Logistics</span>
+                </div>
+                <div class="flex items-center gap-8 px-16">
+                    <i data-lucide="clock" class="text-[#D4AF37] w-6 h-6"></i>
+                    <span class="font-black uppercase text-sm tracking-widest">24/7 Strategic Support</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section id="services" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center space-y-4 mb-24 reveal">
+                <h2 class="text-[#D4AF37] font-black tracking-[0.4em] uppercase text-[11px]">Technical Infrastructure</h2>
+                <h3 class="text-4xl md:text-5xl font-black tracking-tighter uppercase leading-tight">Turnkey Solutions</h3>
+                <div class="w-24 h-2 bg-[#D4AF37] mx-auto rounded-full mt-4 opacity-50"></div>
+                <p class="max-w-2xl mx-auto text-slate-400 mt-6 font-medium">Tailored for the South African climate and power landscape.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="services-container">
+                <!-- Populated via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- The Master Process -->
+    <section id="process" class="py-32 relative bg-white/[0.02]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div class="space-y-12 reveal">
+                   <div class="space-y-4 text-center lg:text-left">
+                      <h2 class="text-[#D4AF37] font-black uppercase tracking-[0.4em] text-[11px]">Workflow Methodology</h2>
+                      <h3 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none">The Artisan <br /> Recovery Process.</h3>
+                   </div>
+                   
+                   <div class="space-y-8" id="process-steps">
+                      <!-- Populated via JS -->
+                   </div>
+                </div>
+
+                <div class="relative reveal" style="transition-delay: 300ms;">
+                   <div class="glass-card p-12 rounded-[3.5rem] relative z-10 space-y-10">
+                      <div class="flex items-center gap-6">
+                         <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-500 border border-blue-500/20">
+                            <i data-lucide="award" size="32"></i>
+                         </div>
+                         <div>
+                            <h4 class="text-xl font-black uppercase tracking-tighter">Certified Workmanship</h4>
+                            <p class="text-[10px] text-[#D4AF37] font-black uppercase tracking-widest">Audited & Verified</p>
+                         </div>
+                      </div>
+                      <p class="text-lg font-medium text-slate-300 italic">"We don't just fix symptoms. We restore structural mechanical balance. Our process ensures that once we leave, your unit remains in peak condition for years."</p>
+                      <div class="flex items-center gap-4 border-t border-white/5 pt-8">
+                         <div class="w-12 h-12 bg-[#D4AF37] rounded-full flex items-center justify-center font-black text-[#020617]">M</div>
+                         <div>
+                            <p class="font-black text-xs uppercase">The Master Technicians</p>
+                            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Lead Engineering Team</p>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-32 relative reveal">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6">
+            <h2 class="text-[#D4AF37] font-black tracking-[0.4em] uppercase text-[11px] mb-4 text-center">Technical Knowledge Base</h2>
+            <h3 class="text-5xl font-black uppercase tracking-tighter mb-16 text-center">Common Enquiries.</h3>
+            
+            <div class="space-y-4" id="faq-container">
+                <!-- Populated via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-32 relative reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div class="space-y-12 text-center lg:text-left">
+                    <h3 class="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.8]">
+                        Restore <br />
+                        <span class="text-[#D4AF37] text-shimmer animate-text-glow">The Chill.</span> <br />
+                        Properly.
+                    </h3>
+                    <p class="text-lg font-medium max-w-sm mx-auto lg:mx-0 text-slate-400">
+                        Contact our strategic engineering unit for an immediate site diagnostic.
+                    </p>
+                    
+                    <div class="space-y-10 text-left max-w-md mx-auto lg:mx-0">
+                        <div class="flex items-center space-x-6 group cursor-pointer" onclick="location.href='tel:0718415957'">
+                            <div class="w-16 h-16 glass-card rounded-2xl flex items-center justify-center text-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#020617] transition-all shadow-xl">
+                                <i data-lucide="phone"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black uppercase mb-1 text-slate-500">Emergency Hotline</p>
+                                <p class="text-2xl font-black leading-none">071 841 5957</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-6 group cursor-pointer" onclick="location.href='https://wa.me/27718415957'">
+                            <div id="wa-icon-container" class="w-16 h-16 glass-card rounded-2xl flex items-center justify-center text-[#D4AF37] group-hover:bg-[#D4AF37] group-hover:text-[#020617] transition-all shadow-xl">
+                                <!-- WhatsApp SVG Inline -->
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black uppercase mb-1 text-slate-500">WhatsApp Dispatch</p>
+                                <p class="text-2xl font-black leading-none">Chat With Us</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-12 rounded-[3.5rem] shadow-2xl relative overflow-hidden">
+                    <form class="space-y-6 relative z-10" onsubmit="event.preventDefault(); alert('Request Transmitted.');">
+                        <h4 class="text-3xl font-black mb-8 uppercase tracking-tighter">Secure Assessment</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <input type="text" placeholder="Client Name" class="w-full glass-card bg-white/5 border-none rounded-xl p-5 outline-none focus:ring-2 focus:ring-[#D4AF37] text-white text-sm" required />
+                            <input type="tel" placeholder="Contact Protocol" class="w-full glass-card bg-white/5 border-none rounded-xl p-5 outline-none focus:ring-2 focus:ring-[#D4AF37] text-white text-sm" required />
+                        </div>
+                        <select class="w-full glass-card bg-white/5 border-none rounded-xl p-5 outline-none focus:ring-2 focus:ring-[#D4AF37] text-sm text-slate-400 appearance-none cursor-pointer">
+                            <option>Artisan Domestic Recovery</option>
+                            <option>Industrial Cold Storage Contract</option>
+                            <option>Certified Gas Infrastructure</option>
+                            <option>Inverter-Tech PCB Service</option>
+                        </select>
+                        <textarea rows="4" placeholder="Mechanical fault description..." class="w-full glass-card bg-white/5 border-none rounded-xl p-5 outline-none focus:ring-2 focus:ring-[#D4AF37] text-white text-sm"></textarea>
+                        <button class="w-full bg-[#D4AF37] text-[#020617] font-black py-6 rounded-2xl shadow-2xl hover:brightness-110 transition-all uppercase tracking-[0.3em] text-[10px]">Transmit Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 bg-black/60 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-16 text-center md:text-left">
+                <div class="space-y-6 md:col-span-2">
+                    <div class="flex items-center justify-center md:justify-start space-x-3">
+                        <div class="w-10 h-10 bg-[#D4AF37] rounded-lg flex items-center justify-center text-[#020617] font-black">FR</div>
+                        <h4 class="text-xl font-black tracking-tighter uppercase leading-none">SA FRIDGE <br /><span class="text-[#D4AF37]">MASTERS</span></h4>
+                    </div>
+                    <p class="text-sm font-medium leading-relaxed text-slate-500 max-w-md">Precision thermal management for South Africa's most demanding environments. Since 2020.</p>
+                </div>
+                <div>
+                    <h5 class="font-black mb-10 uppercase tracking-widest text-[10px] text-[#D4AF37]">Map</h5>
+                    <ul class="space-y-4 text-[11px] font-bold uppercase tracking-widest opacity-70">
+                        <li><a href="#about" class="hover:text-[#D4AF37]">Our Story</a></li>
+                        <li><a href="#services" class="hover:text-[#D4AF37]">Strategic Services</a></li>
+                        <li><a href="#process" class="hover:text-[#D4AF37]">Workflow</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-black mb-10 uppercase tracking-widest text-[10px] text-[#D4AF37]">Support</h5>
+                    <p class="text-lg font-black mb-2">071 841 5957</p>
+                    <p class="text-[10px] font-bold uppercase tracking-widest opacity-60">Nationwide Emergency Unit</p>
+                </div>
+            </div>
+            <div class="mt-20 pt-8 border-t border-white/5 text-center text-[10px] font-black uppercase tracking-[0.5em] opacity-30">
+                &copy; 2026 SA FRIDGE MASTERS. ALL RIGHTS RESERVED.
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/27718415957" class="fixed bottom-8 right-8 z-[100] bg-[#22C55E] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all whatsapp-pulse" id="floating-wa">
+        <!-- SVG injected by JS -->
+    </a>
+
+    <script>
+        // WhatsApp SVG Icon
+        const waSvg = `<svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.446 4.432-9.877 9.888-9.877 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.881-9.886 9.881zM21.158 2.808A11.087 11.087 0 0012.046 0C5.435 0 .058 5.377.056 11.99c0 2.112.551 4.174 1.598 6.01L0 24l6.15-1.613a11.047 11.047 0 005.89 1.666h.005c6.612 0 11.987-5.379 11.99-11.99a11.044 11.044 0 00-3.282-7.882z" /></svg>`;
+        document.getElementById('floating-wa').innerHTML = waSvg;
+        document.getElementById('wa-icon-container').innerHTML = waSvg;
+
+        // Data Models
+        const services = [
+            { title: "Structural Restoration", icon: "snowflake", desc: "Diagnostic and mechanical rebuilding of domestic and industrial cooling units.", bullets: ["Electronic Leak Detection", "OEM Component Swap", "Thermal Load Calibration"] },
+            { title: "Certified Gas Management", icon: "zap", desc: "Vacuum-purged refrigerant restoration using high-purity gases for efficiency.", bullets: ["System Decontamination", "Precision Re-Gassing", "Eco-Compliance"] },
+            { title: "Control Systems", icon: "hammer", desc: "Calibration of modern inverter PCB boards, thermostats, and digital sensors.", bullets: ["PCB Board Diagnostics", "Sensor Optimization", "Thermostat Repair"] },
+            { title: "Industrial Cold Chain", icon: "shield-check", desc: "Maintenance contracts for commercial cold storage facilities across South Africa.", bullets: ["24/7 Priority Support", "Unit Structural Recovery", "Emergency Chill Audits"] }
+        ];
+
+        const steps = [
+            { n: "01", t: "Diagnostic Audit", d: "24-point visual and electronic audit to identify the root cause of cooling failure." },
+            { n: "02", n: "02", t: "Technical Recovery", d: "Executing precision repairs on-site, including structural component replacement." },
+            { n: "03", t: "Purge & Charge", d: "System vacuuming before charging with high-grade certified refrigerant." },
+            { n: "04", t: "Compliance Pass", d: "Final pressure test and thermal cycle check for factory-spec efficiency." }
+        ];
+
+        const faqs = [
+            { q: "Is same-day dispatch guaranteed?", a: "We operate a rapid-response unit specifically for mechanical cooling failures. Dispatch is typically confirmed within 60 minutes." },
+            { q: "Do you handle industrial cold rooms?", a: "Yes, our commercial division manages large-scale cold chain infrastructure nationwide." },
+            { q: "What is your warranty on parts?", a: "Every OEM-certified part we install is backed by a structural guarantee." }
+        ];
+
+        // UI Initialization
+        window.onload = () => {
+            lucide.createIcons();
+            
+            // Populate Services
+            const sCont = document.getElementById('services-container');
+            services.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'glass-card p-10 rounded-[2.5rem] group flex flex-col border-l-4 border-l-[#D4AF37] hover:scale-[1.02] transition-transform reveal';
+                card.innerHTML = `
+                    <div class="w-16 h-16 bg-[#D4AF37] rounded-2xl flex items-center justify-center mb-8 text-[#020617] group-hover:rotate-12 transition-transform shadow-xl">
+                        <i data-lucide="${s.icon}"></i>
+                    </div>
+                    <h4 class="text-2xl font-black mb-4 uppercase tracking-tighter">${s.title}</h4>
+                    <p class="mb-8 text-sm font-medium opacity-70 leading-relaxed flex-grow text-slate-400">${s.desc}</p>
+                    <div class="space-y-2 mb-8 border-t border-white/5 pt-6">
+                        ${s.bullets.map(b => `<div class="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest"><div class="w-1.5 h-1.5 bg-[#D4AF37] rounded-full"></div> ${b}</div>`).join('')}
+                    </div>
+                    <a href="tel:0718415957" class="text-[#D4AF37] font-black text-[10px] uppercase tracking-widest flex items-center group-hover:translate-x-2 transition-transform">Consult Specialist <i data-lucide="arrow-right" class="ml-2 w-4 h-4"></i></a>
+                `;
+                sCont.appendChild(card);
+            });
+
+            // Populate Steps
+            const pCont = document.getElementById('process-steps');
+            steps.forEach(st => {
+                const item = document.createElement('div');
+                item.className = 'flex gap-6 group';
+                item.innerHTML = `
+                    <div class="text-4xl font-black text-white/10 group-hover:text-[#D4AF37]/40 transition-colors duration-500">${st.n}</div>
+                    <div class="space-y-2">
+                        <h4 class="text-xl font-black uppercase tracking-tighter">${st.t}</h4>
+                        <p class="text-sm text-slate-400 font-medium leading-relaxed">${st.d}</p>
+                    </div>
+                `;
+                pCont.appendChild(item);
+            });
+
+            // Populate FAQ
+            const fCont = document.getElementById('faq-container');
+            faqs.forEach((f, idx) => {
+                const item = document.createElement('div');
+                item.className = 'glass-card rounded-2xl overflow-hidden';
+                item.innerHTML = `
+                    <button class="w-full flex justify-between items-center p-6 text-left hover:bg-white/5 transition-colors faq-btn" data-idx="${idx}">
+                        <span class="font-black text-xs uppercase tracking-widest">${f.q}</span>
+                        <div class="faq-icon transition-transform duration-500"><i data-lucide="x" class="text-[#D4AF37] w-4 h-4 rotate-45"></i></div>
+                    </button>
+                    <div class="faq-content overflow-hidden max-h-0 transition-all duration-500 opacity-0 px-6 pb-6 text-sm font-medium text-slate-400 border-t border-white/5 pt-4">
+                        ${f.a}
+                    </div>
+                `;
+                fCont.appendChild(item);
+            });
+
+            // Refresh Icons
+            lucide.createIcons();
+
+            // Setup FAQ Logic
+            document.querySelectorAll('.faq-btn').forEach(btn => {
+                btn.onclick = () => {
+                    const content = btn.nextElementSibling;
+                    const icon = btn.querySelector('.faq-icon');
+                    const isOpen = content.classList.contains('active-faq');
+
+                    document.querySelectorAll('.faq-content').forEach(c => {
+                        c.classList.remove('active-faq');
+                        c.style.maxHeight = '0px';
+                        c.style.opacity = '0';
+                    });
+                    document.querySelectorAll('.faq-icon').forEach(i => i.style.transform = 'rotate(0deg)');
+
+                    if (!isOpen) {
+                        content.classList.add('active-faq');
+                        content.style.maxHeight = '200px';
+                        content.style.opacity = '1';
+                        icon.style.transform = 'rotate(45deg)';
+                    }
+                };
+            });
+
+            // Reveal Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('active');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Remove Preloader
+            const loader = document.getElementById('preloader');
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 500);
+        };
+
+        // Scroll and Menu Logic
+        window.onscroll = () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.remove('top-4');
+                nav.classList.add('top-0');
+            } else {
+                nav.classList.add('top-4');
+                nav.classList.remove('top-0');
+            }
+        };
+
+        const toggleBtn = document.getElementById('menu-toggle');
+        const mMenu = document.getElementById('mobile-menu');
+        toggleBtn.onclick = () => mMenu.classList.toggle('hidden');
+        document.querySelectorAll('.mobile-link').forEach(l => l.onclick = () => mMenu.classList.add('hidden'));
+    </script>
+</body>
+</html>
